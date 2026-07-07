@@ -80,27 +80,32 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/30 to-transparent" />
 
       {/* Conținut */}
-      <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto">
+      <div className="relative z-10 text-center text-white px-6 max-w-4xl mx-auto mt-32 md:mt-40">
 
+        {/* Subtitlu */}
         <motion.div
           custom={0.1} initial="hidden" animate="visible" variants={fadeUp}
           className="flex items-center justify-center gap-4 mb-6"
         >
           <span className="h-px w-12 bg-white/40" />
-          <span className="text-xs uppercase tracking-[0.4em] text-white/70 font-sans font-light">Ne căsătorim</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-white/70 font-sans font-light">
+            Vă invităm să sărbătoriți alături de noi
+          </span>
           <span className="h-px w-12 bg-white/40" />
         </motion.div>
 
+        {/* Numele mirilor */}
         <motion.h1
           custom={0.35} initial="hidden" animate="visible" variants={fadeUp}
-          className="font-cormorant font-light leading-none mb-4"
+          className="font-cormorant font-light leading-none mb-8"
           style={{ fontSize: 'clamp(3rem, 8vw, 6.5rem)' }}
         >
           {weddingConfig.couple.bride}
-          <span className="text-gold-300 mx-3 md:mx-5 font-light italic">&</span>
+          <span className="text-gold-300 mx-3 md:mx-5 font-light italic" style={{ fontSize: '0.45em' }}>&</span>
           {weddingConfig.couple.groom}
         </motion.h1>
 
+        {/* Data și locația */}
         <motion.div
           custom={0.6} initial="hidden" animate="visible" variants={fadeUp}
           className="flex flex-wrap items-center justify-center gap-3 mb-10 text-white/80"

@@ -5,13 +5,13 @@ import weddingConfig from '@/config/config'
 
 const contactItems = [
   {
-    icon: '👔',
+    icon: '🤵',
     label: 'Cristian',
     value: weddingConfig.contact.phoneCristian,
     href: `tel:${weddingConfig.contact.phoneCristian}`,
   },
   {
-    icon: '🌸',
+    icon: '👰',
     label: 'Ioana',
     value: weddingConfig.contact.phoneIoana,
     href: `tel:${weddingConfig.contact.phoneIoana}`,

@@ -8,11 +8,10 @@ export interface TimeLeft {
 export interface RSVPFormData {
   prenume: string
   nume: string
-  email: string
-  telefon: string
   participa: boolean | null
   numar_persoane: number
-  preferinte_alimentare: string
+  // Numele persoanelor care însoțesc invitatul (când numar_persoane > 1)
+  nume_insotitori: string
   mesaj: string
 }
 

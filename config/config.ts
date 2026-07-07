@@ -72,7 +72,7 @@ const weddingConfig: WeddingConfig = {
   },
 
   ceremony: {
-    name: "Biserica Sfinții Arhangheli Mihail și Gavriil",
+    name: "Biserica Sfinții Arhangheli Mihail și Gavril",
     address: "Strada Martirilor Deportați, Satu Mare",
     displayTime: "ora 17:00",
     mapsUrl: "https://maps.app.goo.gl/eJQgec6Pf3Du3YDj9",

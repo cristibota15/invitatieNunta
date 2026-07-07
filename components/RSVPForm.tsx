@@ -2,7 +2,6 @@
 
 import { useState, FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import type { RSVPFormData, RSVPErrors } from '@/types'
 import Button from './ui/Button'
 
@@ -12,11 +11,6 @@ function validateForm(data: RSVPFormData): RSVPErrors {
 
   if (!data.prenume.trim()) errors.prenume = 'Prenumele este obligatoriu'
   if (!data.nume.trim()) errors.nume = 'Numele este obligatoriu'
-  if (!data.email.trim()) {
-    errors.email = 'Email-ul este obligatoriu'
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-    errors.email = 'Adresa de email nu este validă'
-  }
   if (data.participa === null) errors.participa = 'Te rugăm să selectezi o opțiune'
   if (data.participa === true && data.numar_persoane < 1) {
     errors.numar_persoane = 'Numărul de persoane trebuie să fie cel puțin 1'
@@ -65,11 +59,9 @@ function FormField({
 const initialFormData: RSVPFormData = {
   prenume: '',
   nume: '',
-  email: '',
-  telefon: '',
   participa: null,
   numar_persoane: 1,
-  preferinte_alimentare: '',
+  nume_insotitori: '',
   mesaj: '',
 }
 
@@ -96,27 +88,13 @@ export default function RSVPForm() {
     setStatus('loading')
 
     try {
-      if (!isSupabaseConfigured) {
-        // Simulare în lipsa configurării Supabase (dev mode)
-        await new Promise((res) => setTimeout(res, 800))
-        setStatus('success')
-        return
-      }
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
 
-      const { error } = await supabase.from('rsvp').insert([
-        {
-          prenume: formData.prenume.trim(),
-          nume: formData.nume.trim(),
-          email: formData.email.trim().toLowerCase(),
-          telefon: formData.telefon.trim() || null,
-          participa: formData.participa,
-          numar_persoane: formData.participa ? formData.numar_persoane : 0,
-          preferinte_alimentare: formData.preferinte_alimentare.trim() || null,
-          mesaj: formData.mesaj.trim() || null,
-        },
-      ])
-
-      if (error) throw error
+      if (!res.ok) throw new Error('server error')
       setStatus('success')
     } catch {
       setStatus('error')
@@ -234,28 +212,6 @@ export default function RSVPForm() {
               </FormField>
             </div>
 
-            {/* Email + Telefon */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <FormField label="Email" error={errors.email} required>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => update('email', e.target.value)}
-                  placeholder="email@exemplu.ro"
-                  className="form-input"
-                />
-              </FormField>
-              <FormField label="Telefon" error={errors.telefon}>
-                <input
-                  type="tel"
-                  value={formData.telefon}
-                  onChange={(e) => update('telefon', e.target.value)}
-                  placeholder="+40 7xx xxx xxx"
-                  className="form-input"
-                />
-              </FormField>
-            </div>
-
             {/* Participare */}
             <FormField label="Vei participa?" error={errors.participa} required>
               <div className="flex gap-4">
@@ -308,25 +264,30 @@ export default function RSVPForm() {
               )}
             </AnimatePresence>
 
-            {/* Preferințe alimentare */}
-            <FormField
-              label="Preferințe alimentare"
-              error={errors.preferinte_alimentare}
-            >
-              <select
-                value={formData.preferinte_alimentare}
-                onChange={(e) => update('preferinte_alimentare', e.target.value)}
-                className="form-input"
-              >
-                <option value="">Fără restricții</option>
-                <option value="vegetarian">Vegetarian</option>
-                <option value="vegan">Vegan</option>
-                <option value="fara_gluten">Fără gluten</option>
-                <option value="fara_lactoza">Fără lactoză</option>
-                <option value="halal">Halal</option>
-                <option value="altele">Altele (specifică în mesaj)</option>
-              </select>
-            </FormField>
+            {/* Numele însoțitorilor – apare când sunt mai mult de 1 persoană */}
+            <AnimatePresence>
+              {formData.participa === true && formData.numar_persoane > 1 && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <FormField
+                    label={`Numele însoțitorilor (${formData.numar_persoane - 1} ${formData.numar_persoane - 1 === 1 ? 'persoană' : 'persoane'})`}
+                    error={errors.nume_insotitori}
+                  >
+                    <textarea
+                      value={formData.nume_insotitori}
+                      onChange={(e) => update('nume_insotitori', e.target.value)}
+                      placeholder={`ex: ${formData.numar_persoane === 2 ? 'Ion Popescu' : 'Ion Popescu, Ana Ionescu...'}`}
+                      rows={formData.numar_persoane > 3 ? 3 : 2}
+                      className="form-input resize-none"
+                    />
+                  </FormField>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Mesaj */}
             <FormField label="Mesaj pentru miri" error={errors.mesaj}>

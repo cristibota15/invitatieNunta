@@ -90,7 +90,7 @@ export default function Footer() {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="font-sans text-xs text-white/25 mt-12"
           >
-            © {year} · Invitație digitală de nuntă
+            © {year}
           </motion.p>
         </div>
       </div>
