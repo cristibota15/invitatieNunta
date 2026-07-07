@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ================================================
+   Variabile CSS globale
+   ================================================ */
+:root {
+  --color-gold: #C9A07A;
+  --color-gold-light: #E8D5B7;
+  --color-gold-dark: #A07840;
+  --color-cream: #FAF7F2;
+  --color-cream-dark: #F0E8DC;
+  --color-beige: #E6DDD0;
+  --color-text: #3D2E1A;
+  --color-text-light: #7A6548;
+}
+
+/* ================================================
+   Reset & Base
+   ================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+/* ================================================
+   Scrollbar elegantă
+   ================================================ */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
+
+/* ================================================
+   Utilities personalizate
+   ================================================ */
+@layer utilities {
+  /* Separatoare aurii */
+  .divider-gold {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold) 40%,
+      var(--color-gold) 60%,
+      transparent
+    );
+  }
+
+  /* Fundal discret floral – pattern cu puncte aurii */
+  .floral-bg {
+    background-image:
+      radial-gradient(circle, rgba(201, 160, 122, 0.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Titlu secțiune consistent */
+  .section-title {
+    @apply font-cormorant text-4xl md:text-5xl lg:text-6xl font-light text-[#3D2E1A] leading-tight;
+  }
+
+  /* Text subtitlu secțiune */
+  .section-subtitle {
+    @apply text-sm uppercase tracking-[0.25em] text-[#C9A07A] font-sans font-medium;
+  }
+
+  /* Input form elegant */
+  .form-input {
+    @apply w-full bg-white border border-[#E6DDD0] rounded-lg px-4 py-3
+           text-[#3D2E1A] placeholder-[#B09878]
+           focus:outline-none focus:border-[#C9A07A] focus:ring-2 focus:ring-[#C9A07A]/20
+           transition-all duration-200 text-sm;
+  }
+}
+
+/* ================================================
+   Animații keyframe
+   ================================================ */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-gold-dark) 0%,
+    var(--color-gold-light) 50%,
+    var(--color-gold-dark) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}

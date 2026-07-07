@@ -1,0 +1,27 @@
+# Dependențe
+node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Fișiere de build
+/.next/
+/out/
+
+# Variabile de mediu
+.env*.local
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Fișiere TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.DS_Store
+*.pem
+.idea
+.vscode
