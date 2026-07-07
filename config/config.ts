@@ -136,9 +136,8 @@ const weddingConfig: WeddingConfig = {
     title: "Ioana & Cristian – Invitație Nuntă | 7 Noiembrie 2026",
     description:
       "Vă invităm cu drag să fiți alături de noi în cea mai importantă zi din viața noastră. Satu Mare, 7 Noiembrie 2026.",
-    ogImage:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&q=80",
-    url: "https://nunta2027.ro",
+    ogImage: "https://www.ioana-si-cristian.org/hero.jpg",
+    url: "https://www.ioana-si-cristian.org",
   },
 };
 
