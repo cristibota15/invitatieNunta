@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, useRef, useEffect, FormEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { RSVPFormData, RSVPErrors } from '@/types'
 import Button from './ui/Button'
@@ -70,6 +70,15 @@ export default function RSVPForm() {
   const [formData, setFormData] = useState<RSVPFormData>(initialFormData)
   const [errors, setErrors] = useState<RSVPErrors>({})
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const successRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (status === 'success') {
+      setTimeout(() => {
+        successRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 100)
+    }
+  }, [status])
 
   function update<K extends keyof RSVPFormData>(key: K, value: RSVPFormData[K]) {
     setFormData((prev) => ({ ...prev, [key]: value }))
@@ -105,7 +114,7 @@ export default function RSVPForm() {
   if (status === 'success') {
     return (
       <section id="rsvp" className="py-24 md:py-32 px-6 bg-cream-dark">
-        <div className="max-w-xl mx-auto">
+        <div ref={successRef} className="max-w-xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
